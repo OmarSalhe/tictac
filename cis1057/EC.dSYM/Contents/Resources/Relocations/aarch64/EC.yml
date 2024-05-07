@@ -1,0 +1,14 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/omar./Code/C_Code/C_Class/EC'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000033FC, symSize: 0x188 }
+  - { offsetInCU: 0x48, offset: 0x48, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000033FC, symSize: 0x188 }
+  - { offsetInCU: 0x7E, offset: 0x7E, size: 0x8, addend: 0x0, symName: _count_by_2, symObjAddr: 0x188, symBinAddr: 0x100003584, symSize: 0xE0 }
+  - { offsetInCU: 0xBE, offset: 0xBE, size: 0x8, addend: 0x0, symName: _avg_of_list, symObjAddr: 0x268, symBinAddr: 0x100003664, symSize: 0x1B0 }
+  - { offsetInCU: 0x127, offset: 0x127, size: 0x8, addend: 0x0, symName: _fixed_code, symObjAddr: 0x418, symBinAddr: 0x100003814, symSize: 0xD4 }
+  - { offsetInCU: 0x175, offset: 0x175, size: 0x8, addend: 0x0, symName: _with_gauss, symObjAddr: 0x4EC, symBinAddr: 0x1000038E8, symSize: 0x14C }
+  - { offsetInCU: 0x209, offset: 0x209, size: 0x8, addend: 0x0, symName: _colaz_conj, symObjAddr: 0x638, symBinAddr: 0x100003A34, symSize: 0x118 }
+  - { offsetInCU: 0x249, offset: 0x249, size: 0x8, addend: 0x0, symName: _num_finder, symObjAddr: 0x750, symBinAddr: 0x100003B4C, symSize: 0x1B8 }
+  - { offsetInCU: 0x2B3, offset: 0x2B3, size: 0x8, addend: 0x0, symName: _is_prime, symObjAddr: 0x908, symBinAddr: 0x100003D04, symSize: 0x1C }
+...

@@ -1,0 +1,10 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/omar./Code/C/C_Class/tests'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _clearInputBuffer, symObjAddr: 0x0, symBinAddr: 0x1000036D8, symSize: 0x64 }
+  - { offsetInCU: 0x4E, offset: 0x4E, size: 0x8, addend: 0x0, symName: _clearInputBuffer, symObjAddr: 0x0, symBinAddr: 0x1000036D8, symSize: 0x64 }
+  - { offsetInCU: 0x72, offset: 0x72, size: 0x8, addend: 0x0, symName: _modifyEvent, symObjAddr: 0x64, symBinAddr: 0x10000373C, symSize: 0x2B8 }
+  - { offsetInCU: 0xF4, offset: 0xF4, size: 0x8, addend: 0x0, symName: _addEvent, symObjAddr: 0x31C, symBinAddr: 0x1000039F4, symSize: 0x230 }
+  - { offsetInCU: 0x155, offset: 0x155, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x54C, symBinAddr: 0x100003C24, symSize: 0x30 }
+...

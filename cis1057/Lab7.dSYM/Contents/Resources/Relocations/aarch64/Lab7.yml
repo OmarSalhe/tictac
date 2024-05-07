@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/omar./Code/C_Code/C_Class/Lab7'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003B50, symSize: 0x94 }
+  - { offsetInCU: 0x48, offset: 0x48, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003B50, symSize: 0x94 }
+  - { offsetInCU: 0x7E, offset: 0x7E, size: 0x8, addend: 0x0, symName: _stats, symObjAddr: 0x94, symBinAddr: 0x100003BE4, symSize: 0x21C }
+  - { offsetInCU: 0x13C, offset: 0x13C, size: 0x8, addend: 0x0, symName: _uppercase, symObjAddr: 0x2F0, symBinAddr: 0x100003E40, symSize: 0x70 }
+...
