@@ -1,26 +1,24 @@
 import java.util.*;
 
-public class TicTacToe{
+public class Game{
     private char[] board;
 
     private final char PLAYER = 'X';
     private final char GPT = 'O';
     private final char EMPTY = ' ';
-    private final int SIZE = 3;
+    private final int SIZE = 9;
     private final int WIN = 3;
 
-    public TicTacToe(){
-        board = new char[SIZE*SIZE]; // 3x3
+    public Game(){
+        this.board = new char[SIZE]; // 3x3
         for(int i = 0, len = board.length; i < len; i++){
             board[i] = EMPTY;
         }
     }
-
     public String toString(){
         String boardString = "";
-
-        for(int i = 0, len = board.length; i < len; i++){
-            if(i % SIZE == 0){
+        for(int i = 0, len = SIZE; i < len; i++){
+            if(i % SIZE / 3 == 0){
                 boardString += "\n";
             }
             boardString += "[" + this.board[i] + "]";
@@ -28,17 +26,16 @@ public class TicTacToe{
         return boardString;
     }
 
-    public boolean validMove(int move, char player){
+    public boolean validPlayerMove(int move, char player){
         return move < this.board.length && this.board[move] == EMPTY;
     }
-
     public void playMove(int move, char player){
         this.board[move] = player;
     }
+
     public boolean isTie(){
         return Arrays.binarySearch(this.board, EMPTY) <= 0;
     }
-
     public boolean isWinner(char player){
         int[][] winningPattern = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}}; // 2 diagonal + 3 horizontal + 3 vertical
         List<Integer>listOfMoves = new ArrayList<>();
@@ -64,6 +61,10 @@ public class TicTacToe{
         return false;
     }
 
+    public char[] getBoard(){
+        return this.board;
+    }
+
     public void play(){
         boolean playerTurn = true;
         Scanner in = new Scanner(System.in);
@@ -73,9 +74,9 @@ public class TicTacToe{
                     System.out.println("Enter: Row and Column");
                     Scanner move = new Scanner(in.nextLine());
 
-                    int playerMove = move.nextInt() + move.nextInt();
-                    if(validMove(playerMove, PLAYER)){
-                        this.board[playerMove] = PLAYER;
+                    int playerMove = (move.nextInt() - 1) + 3 * (move.nextInt() - 1);
+                    if(validPlayerMove(playerMove, PLAYER)){
+                        playMove(playerMove, PLAYER);
                         playerTurn = false;
                         break;
                     }
@@ -83,9 +84,10 @@ public class TicTacToe{
                 } while(true);
             }
             else{
-                //computerMove = computer move
+                //computerMove = makeMove(computer move)
                 playerTurn = true;
             }
+            System.out.println("\n" + this);
             if(isWinner(PLAYER)){
                 System.out.println("Player Wins");
                 break;
