@@ -2,101 +2,100 @@ import java.util.*;
 
 public class Game{
     private char[] board;
-
+    
     private final char PLAYER = 'X';
-    private final char GPT = 'O';
+    private final char COMPUTER = 'O';
     private final char EMPTY = ' ';
-    private final int SIZE = 9;
-    private final int WIN = 3;
+    private final int BOARD_SIZE = 9;
+    private final int BOARD_DIMENSION = 3; // 3x3
 
-    public Game(){
-        this.board = new char[SIZE]; // 3x3
-        for(int i = 0, len = board.length; i < len; i++){
-            board[i] = EMPTY;
+    public Game(char[] board){
+        this.board = board;
+        if(boardIsEmpty()){
+            emptyBoard();
         }
     }
+    private void emptyBoard(){
+        for(int i = 0; i < BOARD_SIZE; i++){
+            this.board[i] = EMPTY;
+        }
+    }
+    
+    private boolean boardIsEmpty(){
+        return Arrays.binarySearch(this.board, '\u0000') > 0;
+    }
+    
     public String toString(){
         String boardString = "";
-        for(int i = 0, len = SIZE; i < len; i++){
-            if(i % SIZE / 3 == 0){
+        for(int i = 0, len = BOARD_SIZE; i < len; i++){
+            if(i % BOARD_DIMENSION == 0){
                 boardString += "\n";
             }
             boardString += "[" + this.board[i] + "]";
         }
         return boardString;
     }
-
-    public boolean validPlayerMove(int move, char player){
-        return move < this.board.length && this.board[move] == EMPTY;
-    }
+    
     public void playMove(int move, char player){
         this.board[move] = player;
     }
 
     public boolean isTie(){
-        return Arrays.binarySearch(this.board, EMPTY) <= 0;
+        for(char square: this.board){
+            if(square == EMPTY){
+                return false;
+            }
+        }
+        return !isWinner(PLAYER) && !isWinner(COMPUTER);
     }
+
     public boolean isWinner(char player){
-        int[][] winningPattern = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}}; // 2 diagonal + 3 horizontal + 3 vertical
+        int[][] winningPatterns = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}}; // 2 diagonal + 3 horizontal + 3 vertical
         List<Integer>listOfMoves = new ArrayList<>();
-        for(int i = 0, len = board.length; i < len; i++){
+        for(int i = 0; i < BOARD_SIZE; i++){
             if(this.board[i] == player){
                 listOfMoves.add(i);
             }
         }
         // compare each pattern to the pattern found if same then win
-        for(int i = 0, len = winningPattern.length; i < len; i++){
+        for(int[] pattern: winningPatterns){
             int count = 0;
-            for(int j: winningPattern[i]){
-                for(int k = 0, n = listOfMoves.size(); k < n; k++){
-                    if(listOfMoves.get(i) == j){
+            for(int square: pattern){
+                for(int move: listOfMoves){
+                    if(move == square){
                         count++;
                     }
                 }
             }
-            if(count == WIN){
+            if (count == BOARD_DIMENSION){
                 return true;
             }
         }
         return false;
+
+        /* 
+         * for(int i = 0, len = winningPatterns.length; i < len; i++){
+            int count = 0;
+            for(int j: winningPatterns[i]){
+                for(int k = 0, n = listOfMoves.size(); k < n; k++){
+                    if(listOfMoves.get(k) == j){
+                        count++;
+                    }
+                }
+            }
+            if(count == BOARD_DIMENSION){
+                return true;
+            }
+        }
+        return false;
+        */
     }
 
     public char[] getBoard(){
         return this.board;
     }
 
-    public void play(){
-        boolean playerTurn = true;
-        Scanner in = new Scanner(System.in);
-        while(!isTie()){
-            if(playerTurn){
-                do {
-                    System.out.println("Enter: Row and Column");
-                    Scanner move = new Scanner(in.nextLine());
-
-                    int playerMove = (move.nextInt() - 1) + 3 * (move.nextInt() - 1);
-                    if(validPlayerMove(playerMove, PLAYER)){
-                        playMove(playerMove, PLAYER);
-                        playerTurn = false;
-                        break;
-                    }
-                    move.close();
-                } while(true);
-            }
-            else{
-                //computerMove = makeMove(computer move)
-                playerTurn = true;
-            }
-            System.out.println("\n" + this);
-            if(isWinner(PLAYER)){
-                System.out.println("Player Wins");
-                break;
-            }
-            else if(isWinner(GPT)){
-                System.out.println("Computer Wins");
-                break;
-            }
-        }
-        in.close();
+    public Game copy(){
+        return new Game(this.board.clone());
     }
 }
