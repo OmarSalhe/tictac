@@ -35,17 +35,17 @@ public class Player {
             inputtedMove = new Scanner(in.nextLine());
             int row = inputtedMove.nextInt() - 1;
             int col = inputtedMove.nextInt() - 1;
-            int move = row + 3 * col;
+            int move = col + 3 * row;
             if(moveValidation(row, col, move)){
                 return move;
             }
-            System.err.println("BOTH Row and Column values MUST be from 1 to 3");
+            System.err.println("Both Row and Column values MUST be from 1 to 3 and not already occupied");
         }
         catch(InputMismatchException e){
-            System.err.println("Either: Input both Row and Column as TWO NUMBERS SEPARATED by a space");
+            System.err.println("Input both Row and Column as TWO NUMBERS");
         }
         catch(NoSuchElementException f){
-            System.err.println("Premature System.in Scanner closing");
+            System.err.println("Be sure to SEPARATE the two numbers with a space");
         }
         finally{
             inputtedMove.close();
@@ -58,7 +58,6 @@ public class Player {
         final char EMPTY = ' ';
         final int DIMENSIONS = 3;
         return (0 > row || row < DIMENSIONS) && (0 > col || col < DIMENSIONS) && move < BOARD_SIZE && game.getBoard()[move] == EMPTY;
-        // row and col between 0-3 AND move must be between 0-9 AND the slot gotta be empty
     }
 } 
 

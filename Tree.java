@@ -6,7 +6,6 @@ public class Tree{
     private Node root;
 
     public Tree(Node root){
-        System.out.println("We made a tree!");
         this.root = null;
         insert(root);
     }
