@@ -50,37 +50,12 @@ public class Game{
     }
 
     public boolean isWinner(char player){
-        int[][] winningPatterns = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}}; // 2 diagonal + 3 horizontal + 3 vertical
-        List<Integer>listOfMoves = new ArrayList<>();
-        for(int i = 0; i < BOARD_SIZE; i++){
-            if(this.board[i] == player){
-                listOfMoves.add(i);
-            }
-        }
-        // compare each pattern to the pattern found if same then win
-        for(int[] pattern: winningPatterns){
+        int[][] winningPatterns = {{0, 4, 8}, {2, 4, 6}, {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}};
+         for(int[] pattern: winningPatterns){
             int count = 0;
-            for(int square: pattern){
-                for(int move: listOfMoves){
-                    if(move == square){
-                        count++;
-                    }
-                }
-            }
-            if (count == BOARD_DIMENSION){
-                return true;
-            }
-        }
-        return false;
-
-        /* 
-         * for(int i = 0, len = winningPatterns.length; i < len; i++){
-            int count = 0;
-            for(int j: winningPatterns[i]){
-                for(int k = 0, n = listOfMoves.size(); k < n; k++){
-                    if(listOfMoves.get(k) == j){
-                        count++;
-                    }
+            for(int i = 0; i < BOARD_DIMENSION; i++){
+                if(this.board[pattern[i]] == player){
+                    count++;
                 }
             }
             if(count == BOARD_DIMENSION){
@@ -88,7 +63,6 @@ public class Game{
             }
         }
         return false;
-        */
     }
 
     public char[] getBoard(){

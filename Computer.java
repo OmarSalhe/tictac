@@ -32,6 +32,7 @@ public class Computer {
         char[] bestBoard = child.getGameState().getBoard();
         for(int i = 0, len = currentBoard.length; i < len; i++){
             if(currentBoard[i] != bestBoard[i]){
+                System.out.println(i);
                 return i;
             }
         }
@@ -40,13 +41,14 @@ public class Computer {
 
     private int minimaxAlgo(Node position, boolean maximizingPlayer){
         if(gameIsOver(position.getGameState())){
-            //System.out.println("Reached a leaf!\n" + position);
-            return evaluation(game);
+            System.out.println(position);
+            return evaluation(position.getGameState());
         }
+        List<Node>possibleGameStates = position.getPossibleGameStates();
         if(maximizingPlayer){
             int maxEval = MIN;
-            for(Node child: position.getPossibleGameStates()){
-                int eval = minimaxAlgo(child, false);
+            for(Node gameState: possibleGameStates){
+                int eval = minimaxAlgo(gameState, false);
                 maxEval = max(maxEval, eval);
             }
             position.setEval(maxEval);
@@ -54,8 +56,8 @@ public class Computer {
         }
         else{
             int minEval = MAX;
-            for(Node child: position.getPossibleGameStates()){
-            int eval = minimaxAlgo(child, true);
+            for(Node gameState: possibleGameStates){
+            int eval = minimaxAlgo(gameState, true);
             minEval = min(minEval, eval);
             }
             position.setEval(minEval);
@@ -72,10 +74,10 @@ public class Computer {
     }
 
     public int evaluation(Game position){
-        if(position.isWinner(PLAYER)){
+        if(position.isWinner(COMPUTER)){
             return MAX;
         }
-        else if(position.isWinner(COMPUTER)){
+        else if(position.isWinner(PLAYER)){
             return MIN;
         }
         return TIE;
@@ -85,13 +87,3 @@ public class Computer {
         return game.isWinner(PLAYER) || game.isWinner(COMPUTER) || game.isTie();
     }
 }
-
-//TO DO
-
-/* Generate Moves
-*  List out each possible move
-*  Evaluate each move
-*  Interact with Board
-*  Make move
-*    
-*/
