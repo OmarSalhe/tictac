@@ -1,9 +1,10 @@
 import java.util.List;
+import java.lang.Math;
 
 public class Computer {
     private final char COMPUTER = 'O';
     private final char PLAYER = 'X';
-    private final int MAX = 10;
+    private final int MAX = Integer.MAX_VALUE;
     private final int MIN = -10;
     private final int TIE = 0;
 
@@ -19,10 +20,11 @@ public class Computer {
 
     public void computerMove(){
         int bestEval = minimaxAlgo(this.currentPosition, true);
-        List<Node>potentialGameStates = this.currentPosition.getPossibleGameStates();
+        Node[] potentialGameStates = this.currentPosition.getSortedPossibleGameStates();
         for(Node gameState: potentialGameStates){
             if(gameState.getEval() == bestEval){
                 this.game.playMove(findMove(this.currentPosition, gameState), COMPUTER);
+                return;
             }
         }
     }
@@ -32,7 +34,6 @@ public class Computer {
         char[] bestBoard = child.getGameState().getBoard();
         for(int i = 0, len = currentBoard.length; i < len; i++){
             if(currentBoard[i] != bestBoard[i]){
-                System.out.println(i);
                 return i;
             }
         }
@@ -41,15 +42,16 @@ public class Computer {
 
     private int minimaxAlgo(Node position, boolean maximizingPlayer){
         if(gameIsOver(position.getGameState())){
-            System.out.println(position);
-            return evaluation(position.getGameState());
+            int eval = evaluate(position);
+            position.setEval(eval);
+            return eval;
         }
-        List<Node>possibleGameStates = position.getPossibleGameStates();
+        List<Node> possibleGameStates = position.getPossibleGameStates();
         if(maximizingPlayer){
             int maxEval = MIN;
             for(Node gameState: possibleGameStates){
                 int eval = minimaxAlgo(gameState, false);
-                maxEval = max(maxEval, eval);
+                maxEval = Math.max(maxEval, eval);
             }
             position.setEval(maxEval);
             return maxEval;
@@ -58,31 +60,22 @@ public class Computer {
             int minEval = MAX;
             for(Node gameState: possibleGameStates){
             int eval = minimaxAlgo(gameState, true);
-            minEval = min(minEval, eval);
+            minEval = Math.min(minEval, eval);
             }
             position.setEval(minEval);
             return minEval;
         }
     }
 
-    public int max(int x, int y){
-        return x > y? x : y;
-    }
-
-    public int min(int x, int y){
-        return x < y? x : y;
-    }
-
-    public int evaluation(Game position){
-        if(position.isWinner(COMPUTER)){
-            return MAX;
+    public int evaluate(Node position){
+        if(position.getGameState().isWinner(COMPUTER)){
+            return MAX - position.getDepth();
         }
-        else if(position.isWinner(PLAYER)){
-            return MIN;
+        else if(position.getGameState().isWinner(PLAYER)){
+            return MIN - position.getDepth();
         }
         return TIE;
     }
-
     public boolean gameIsOver(Game game){
         return game.isWinner(PLAYER) || game.isWinner(COMPUTER) || game.isTie();
     }
