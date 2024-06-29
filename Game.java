@@ -1,8 +1,8 @@
 import java.util.*;
 
+//Game Logic
 public class Game{
     private char[] board;
-    
     private final char PLAYER = 'X';
     private final char COMPUTER = 'O';
     private final char EMPTY = ' ';

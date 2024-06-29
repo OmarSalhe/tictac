@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
+// Game Driver
 public class TicTacToe {
     private final char PLAYER = 'X';
     private final char COMPUTER = 'O';
     private final int BOARD_SIZE = 9;
-
     private Game game;
 
     public TicTacToe(){

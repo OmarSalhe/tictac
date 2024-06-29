@@ -3,10 +3,9 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Player {
+    private final char PLAYER = 'X';
     private String name;
     private Game game;
-
-    private final char PLAYER = 'X';
 
     public Player(String name, Game game){
         this.name = name;

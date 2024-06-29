@@ -33,9 +33,9 @@ public class Tree{
 }
 
 class Node{  
-    private Game curGameState; // current game state
+    private Game curGameState;
     private char player;
-    private List<Node>possibleGameStates; //possible states
+    private List<Node>possibleGameStates;
     private int eval;
     private int depth;
 
