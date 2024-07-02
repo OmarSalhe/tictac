@@ -4,7 +4,7 @@ import java.lang.Math;
 public class Computer {
     private final char COMPUTER = 'O';
     private final char PLAYER = 'X';
-    private final int MAX = Integer.MAX_VALUE;
+    private final int MAX = 10;
     private final int MIN = -10;
     private final int TIE = 0;
 

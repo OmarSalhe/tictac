@@ -44,6 +44,7 @@ public class TicTacToe {
             if(checkForWinner(player)){
                 break;
             }
+        if(this.game.isTie()){System.out.println("The game is a tie");}
         }
         in.close();
     }
