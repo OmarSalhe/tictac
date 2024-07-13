@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
     @PostMapping("/status")
     public ResponseEntity<Integer> checkStatus(@RequestBody char[] board){
-        final int X_WIN = 0, O_WIN = 1, TIE = 2, ONGOING = 3;
+        final int X_WIN = 1, O_WIN = 2, TIE = 0, ONGOING = -1;
         Game curState = new Game(board);
         Integer status = null;
         if(curState.isWinner('X')){

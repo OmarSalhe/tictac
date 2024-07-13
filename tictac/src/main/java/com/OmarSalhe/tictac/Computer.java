@@ -20,19 +20,19 @@ public class Computer {
         this.tree = new Tree(currentPosition);
     }
 
-    public void computerMove(){
+    public int computerMove(){
         int bestEval = minimaxAlgo(this.currentPosition, true);
         Node[] potentialGameStates = this.currentPosition.getSortedPossibleGameStates();
         for(Node gameState: potentialGameStates){
             if(gameState.getEval() == bestEval){
-                this.game.playMove(findMove(this.currentPosition, gameState), COMPUTER);
-                return;
+                return findMove(gameState);
             }
         }
+        return -1;
     }
 
-    private int findMove(Node root, Node child){
-        char[] currentBoard = root.getGameState().getBoard();
+    private int findMove(Node child){
+        char[] currentBoard = this.currentPosition.getGameState().getBoard();
         char[] bestBoard = child.getGameState().getBoard();
         for(int i = 0, len = currentBoard.length; i < len; i++){
             if(currentBoard[i] != bestBoard[i]){

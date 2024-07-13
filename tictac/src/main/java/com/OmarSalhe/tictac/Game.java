@@ -16,6 +16,7 @@ public class Game{
             emptyBoard();
         }
     }
+    @Deprecated
     private void emptyBoard(){
         for(int i = 0; i < BOARD_SIZE; i++){
             this.board[i] = EMPTY;
