@@ -146,7 +146,7 @@ class Node{
     }
 
     private int[] generateMoves(){
-        final char EMPTY = ' ';
+        final char EMPTY = '\u0000';
         final int BOARD_SIZE = 9;
         int[] tmp = new int[BOARD_SIZE];
         char[] board = curGameState.getBoard();
