@@ -9,29 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 
 public class GameController {
-    @PostMapping("/status")
-    public ResponseEntity<Integer> checkStatus(@RequestBody char[] board){
-        final int X_WIN = 1, O_WIN = 2, TIE = 0, ONGOING = -1;
-        Game curState = new Game(board);
-        Integer status = null;
-        if(curState.isWinner('X')){
-            status = X_WIN;
-        }
-        else if(curState.isWinner('O')){
-            status = O_WIN;
-        }
-        if(curState.isTie()){
-            status = TIE;
-        }
-        else{
-            status = ONGOING;
-        }
-
-        return ResponseEntity.ok(status);
-    }
-
-    
-    @PostMapping("/move")
+     @PostMapping("/move")
     public ResponseEntity<Integer> makeMove(@RequestBody char[] board) {
         // Initialize the computer with the current game state
         Computer computer = new Computer(new Game(board));

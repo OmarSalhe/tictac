@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Arrays;
 
 public class Tree{
-    private Node root;
+    private Node root = null;
 
-    public Tree(Node root){
-        this.root = null;
-        insert(root, 0);
+    public Tree(Node curGameState){
+        insert(curGameState, 0);
     }
 
     private void insert(Node gameState, int depth){

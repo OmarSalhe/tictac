@@ -6,16 +6,14 @@ import java.lang.Math;
 public class Computer {
     private final char COMPUTER = 'O';
     private final char PLAYER = 'X';
-    private final int MAX = Integer.MAX_VALUE;
+    private final int MAX = 10;
     private final int MIN = -10;
     private final int TIE = 0;
 
-    private Game game;
     private Tree tree;
     private Node currentPosition;
 
-    public Computer(Game game){
-        this.game = game;                                                                                                                                                                                                                                                                                                                                                                          
+    public Computer(Game game){                                                                                                                                                                                                                                                                                                                                                                       
         this.currentPosition = new Node(game, COMPUTER);
         this.tree = new Tree(currentPosition);
     }
