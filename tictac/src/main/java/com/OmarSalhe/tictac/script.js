@@ -19,8 +19,6 @@ function clientMove(event){
     if(isLegal(move)){
         clearError();
         updateUI(move, PLAYER);
-        setTimeout(gameLoop, 1000);
-        
         playerTurn = false
         if(isWinner(PLAYER)){
             checkWinLocally();
@@ -29,6 +27,7 @@ function clientMove(event){
     else{
         showError('Move Error. Please press an empty square');
     }
+    setTimeout(gameLoop, 1000);
 };
 
 function isWinner(player){
