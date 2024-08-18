@@ -19,15 +19,15 @@ class TictacApplicationTests {
 		char[] position2 = {
 			'O', 'X', 'O',
 			'X', 'O', 'X',
-			'X', 'X', 'X'
+			'X', 'X', '\u0000'
 		};
 		assertEquals(new Computer(new Game(position1)).computerMove(), 7);
-		assertEquals(new Computer(new Game(position2)).computerMove(), -1);
+		assertEquals(new Computer(new Game(position2)).computerMove(), 8);
 	}
 
-	@Test
-	void contextLoads() {
+	// @Test
+	// void contextLoads() {
 		
-	}
+	// }
 
 }

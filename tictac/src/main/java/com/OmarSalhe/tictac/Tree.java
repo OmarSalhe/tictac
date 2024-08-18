@@ -82,7 +82,7 @@ class Node{
         if(start == end){
             return new Node[]{posArr[start]};
         }
-        int mid = (end + start) / 2;
+        int mid = start + (end - start) / 2;
         Node[] A = mergeSort(start, mid, posArr);
         Node[] B = mergeSort(mid + 1, end, posArr);
 
@@ -111,7 +111,6 @@ class Node{
         }
         return merged;
     }
-
     public void addChild(){
         final char COMPUTER = 'O';
         final char PLAYER = 'X';
