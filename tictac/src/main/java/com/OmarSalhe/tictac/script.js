@@ -178,4 +178,16 @@ function showError(msg){
     }, 1000);
 };
 
-cells.forEach(cell => cell.addEventListener('click', clientMove));
+let playerTurn = true;
+function gameLoop(){
+
+    while(!isTie(squares)){
+        if(playeTurn){
+            playerTurn = False;
+            cells.forEach(cell => cell.addEventListener('click', clientMove));
+        }
+        else{
+            computerMove();
+        }
+    }
+};
