@@ -71,7 +71,10 @@ function checkWinLocally(){
         showMessage("Congrats! You Win!");
         //verifyWinnerRemotely(PLAYER);
     }
-}
+    else{
+        showMessage("👾You have been overcome by the AI Overlord's calculated onslaught👾")
+    }
+};
 
 // Back-end Calls
 /**
@@ -180,14 +183,19 @@ function showError(msg){
 
 let playerTurn = true;
 function gameLoop(){
-
     while(!isTie(squares)){
-        if(playeTurn){
-            playerTurn = False;
+        if(playerTurn){
+            playerTurn = false;
             cells.forEach(cell => cell.addEventListener('click', clientMove));
         }
         else{
+            playerTurn = true;
             computerMove();
+        }
+        if(isWinner(COMPUTER) || isWinner(PLAYER)){
+            checkWinLocally();
         }
     }
 };
+
+gameLoop();
