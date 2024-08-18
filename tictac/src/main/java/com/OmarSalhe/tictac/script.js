@@ -19,7 +19,12 @@ function clientMove(event){
     if(isLegal(move)){
         clearError();
         updateUI(move, PLAYER);
-        setTimeout(computerMove, 1000);
+        setTimeout(gameLoop, 1000);
+        
+        playerTurn = false
+        if(isWinner(PLAYER)){
+            checkWinLocally();
+        } 
     }
     else{
         showError('Move Error. Please press an empty square');
@@ -183,16 +188,17 @@ function showError(msg){
 
 let playerTurn = true;
 function gameLoop(){
-    while(!isTie(squares)){
-        if(playerTurn){
-            playerTurn = false;
-            cells.forEach(cell => cell.addEventListener('click', clientMove));
-        }
-        else{
-            playerTurn = true;
-            computerMove();
-        }
-        if(isWinner(COMPUTER) || isWinner(PLAYER)){
+    if(isTie(squares)){
+        return;
+    }
+
+    if(playerTurn){
+        playerTurn = false;
+        cells.forEach(cell => cell.addEventListener('click', clientMove));
+    }
+    else{
+        computerMove();
+        if(isWinner(COMPUTER)){
             checkWinLocally();
         }
     }
