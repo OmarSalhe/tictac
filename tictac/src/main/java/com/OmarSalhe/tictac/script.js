@@ -8,26 +8,22 @@ const squares = new Array(BOARD_SIZE).fill(null);
 let errorMsg = null;
 
 // Game Logic
-/**
- * Contains:
- *  Move validation
- *  client interactions
- */
-
 function clientMove(event){
     const move = cells.indexOf(event.target);
     if(isLegal(move)){
         clearError();
         updateUI(move, PLAYER);
-        playerTurn = false
         if(isWinner(PLAYER)){
             checkWinLocally();
         } 
+        else{
+            playerTurn = false;
+            setTimeout(gameLoop, 1000);
+        }
     }
     else{
         showError('Move Error. Please press an empty square');
     }
-    setTimeout(gameLoop, 1000);
 };
 
 function isWinner(player){
@@ -59,7 +55,7 @@ function isWinner(player){
 
 function isTie(){
     for(let cell of squares){
-        if(cell){
+        if(cell == null){
             return false;
         }
     }
@@ -80,12 +76,7 @@ function checkWinLocally(){
     }
 };
 
-// Back-end Calls
-/**
- * Contains requests to server for:
- *  validating game status
- *  retrieving computer moves
- */
+// Back-end
 // function verifyWinnerRemotely(winner){
 //     fetch('https://localhost:8080/api/status', {
 //         method: 'POST',
@@ -137,12 +128,6 @@ function computerMove(){
 };
 
 // Rendering
-/**
- * Contains functions for:
- *  updating UI
- *  interacting with board representations
- */
-
 function updateUI(move, player){
     squares[move] = player;
     cells[move].textContent = player;
@@ -188,17 +173,22 @@ function showError(msg){
 let playerTurn = true;
 function gameLoop(){
     if(isTie(squares)){
+        clearBoard();
+        clearError();
         return;
     }
-
     if(playerTurn){
-        playerTurn = false;
         cells.forEach(cell => cell.addEventListener('click', clientMove));
     }
     else{
+        cells.forEach(cell => cell.removeEventListener('click', clientMove))
         computerMove();
         if(isWinner(COMPUTER)){
             checkWinLocally();
+        }
+        else{
+            playerTurn = true;
+            setTimeout(gameLoop, 1000);
         }
     }
 };
