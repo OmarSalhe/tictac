@@ -47,7 +47,9 @@ public class Player {
             System.err.println("Be sure to SEPARATE the two numbers with a space");
         }
         finally{
-            inputtedMove.close();
+            if(inputtedMove != null){
+                inputtedMove.close();
+            }
         }
         return -1;
     }
