@@ -69,49 +69,10 @@ class Node{
         return this.possibleGameStates;
     }
 
-    public Node[] getSortedPossibleGameStates(){
-        Node[] posArr = this.possibleGameStates.toArray(new Node[0]);
-        return mergeSort(0, posArr.length - 1, posArr);
-    }
-
     public Game getGameState(){
         return this.curGameState;
     }
     
-    private Node[] mergeSort(int start, int end, Node[] posArr){
-        if(start == end){
-            return new Node[]{posArr[start]};
-        }
-        int mid = (end + start) / 2;
-        Node[] A = mergeSort(start, mid, posArr);
-        Node[] B = mergeSort(mid + 1, end, posArr);
-
-        return merge(A, B);
-    }
-
-    private Node[] merge(Node[] A, Node[] B){
-        int aLen = A.length;
-        int bLen = B.length;
-        int i = 0, j = 0, l = 0;
-        Node[] merged = new Node[aLen + bLen];
-
-        while(i < aLen && j < bLen){
-            if(A[i].getEval() >= B[j].getEval()){
-                merged[l++] = A[i++];
-            }
-            else{
-                merged[l++] = B[j++];
-            }
-        }
-        while(i < aLen){
-            merged[l++] = A[i++];
-        }
-        while(j < bLen){
-            merged[l++] = B[j++];
-        }
-        return merged;
-    }
-
     public void addChild(){
         final char COMPUTER = 'O';
         final char PLAYER = 'X';

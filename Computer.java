@@ -20,7 +20,7 @@ public class Computer {
 
     public void computerMove(){
         int bestEval = minimaxAlgo(this.currentPosition, true);
-        Node[] potentialGameStates = this.currentPosition.getSortedPossibleGameStates();
+        List<Node> potentialGameStates = this.currentPosition.getPossibleGameStates();
         for(Node gameState: potentialGameStates){
             if(gameState.getEval() == bestEval){
                 this.game.playMove(findMove(this.currentPosition, gameState), COMPUTER);
