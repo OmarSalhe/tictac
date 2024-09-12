@@ -1,6 +1,2 @@
 # tictac
-Just wanted to try and make a game of tic tac toe from scratch without any prior knowledge.
-
-Good practice for my java and logical thinking.
-
-just for funsies
+Decided my first project would be a a fully fledged chess engine with graphics and everything when I first started coding. Only now later did i realize that wasn't happening anytime soon, so to stay in spirit with my younger self I made this TicTacToe engine with CLI graphics. I will come back from time to time to play around with any concepts or optimizations that I could fit in here, but for now it's pretty good.
