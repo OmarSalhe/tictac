@@ -19,7 +19,7 @@ public class Computer {
     }
 
     public void computerMove(){
-        int bestEval = minimaxAlgo(this.currentPosition, true);
+        int bestEval = minimaxAlgo(this.currentPosition, true, MIN, MAX);
         List<Node> potentialGameStates = this.currentPosition.getPossibleGameStates();
         for(Node gameState: potentialGameStates){
             if(gameState.getEval() == bestEval){
@@ -40,7 +40,7 @@ public class Computer {
         return -1;
     }
 
-    private int minimaxAlgo(Node position, boolean maximizingPlayer){
+    private int minimaxAlgo(Node position, boolean maximizingPlayer, int alpha, int beta){
         if(gameIsOver(position.getGameState())){
             int eval = evaluate(position);
             position.setEval(eval);
@@ -50,8 +50,13 @@ public class Computer {
         if(maximizingPlayer){
             int maxEval = MIN;
             for(Node gameState: possibleGameStates){
-                int eval = minimaxAlgo(gameState, false);
+                int eval = minimaxAlgo(gameState, false, alpha, beta);
                 maxEval = Math.max(maxEval, eval);
+                alpha = Math.max(alpha, eval);
+                // if better move was found earlier on
+                if(beta <= alpha){
+                    break;
+                }
             }
             position.setEval(maxEval);
             return maxEval;
@@ -59,8 +64,12 @@ public class Computer {
         else{
             int minEval = MAX;
             for(Node gameState: possibleGameStates){
-            int eval = minimaxAlgo(gameState, true);
+            int eval = minimaxAlgo(gameState, true, alpha, beta);
             minEval = Math.min(minEval, eval);
+            beta = Math.min(beta, eval);
+            if(beta <= alpha){
+                break;
+            }
             }
             position.setEval(minEval);
             return minEval;
