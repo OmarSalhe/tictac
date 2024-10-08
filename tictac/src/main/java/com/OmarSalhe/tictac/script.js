@@ -6,76 +6,6 @@ const COMPUTER = 'O';
 const squares = new Array(BOARD_SIZE).fill(null);
 
 let errorMsg = null;
-
-// Game Logic
-function clientMove(event){
-    const move = cells.indexOf(event.target);
-    if(isLegal(move)){
-        clearError();
-        updateUI(move, PLAYER);
-        if(isWinner(PLAYER)){
-            checkWinLocally();
-        } 
-        else{
-            playerTurn = false;
-            setTimeout(gameLoop, 1000);
-        }
-    }
-    else{
-        showError('Move Error. Please press an empty square');
-    }
-};
-
-function isWinner(player){
-    const winningPatterns = [
-        [0, 4, 8], 
-        [2, 4, 6], 
-        [0, 1, 2], 
-        [3, 4, 5], 
-        [6, 7, 8], 
-        [0, 3, 6], 
-        [1, 4, 7], 
-        [2, 5, 8]
-    ];
-
-    for(let pattern of winningPatterns){
-        const ROW = 3;
-        let count = 0;
-        for(let i = 0; i < ROW; i++){
-            if(squares[pattern[i]] === player){
-                count++;
-            }
-        }
-        if(count === ROW){
-            return true;
-        }
-    }
-    return false;
-};
-
-function isTie(){
-    for(let cell of squares){
-        if(cell == null){
-            return false;
-        }
-    }
-    return !isWinner(PLAYER) && !isWinner(COMPUTER);
-};
-
-function isLegal(move){
-    return move < BOARD_SIZE && move >= 0 && !squares[move];
-};
-
-function checkWinLocally(){
-    if(isWinner(PLAYER)){
-        showMessage("Congrats! You Win!");
-        //verifyWinnerRemotely(PLAYER);
-    }
-    else{
-        showMessage("👾You have been overcome by the AI Overlord's calculated onslaught👾")
-    }
-};
-
 // Back-end
 // function verifyWinnerRemotely(winner){
 //     fetch('https://localhost:8080/api/status', {
@@ -106,7 +36,7 @@ function checkWinLocally(){
 // };
 
 function computerMove(){
-    fetch('https://localhost:8080/api/move', {
+    fetch('http://localhost:8080/api/move', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -120,7 +50,9 @@ function computerMove(){
       return response.json();
     })
     .then(move => {
-      updateUI(move, COMPUTER);
+        const computerMoveIndex = move;
+        console.log("Computer move: ", move);
+        updateUI(computerMoveIndex, COMPUTER);
     })
     .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);
@@ -170,26 +102,95 @@ function showError(msg){
     }, 1000);
 };
 
+// Game Logic
+function clientMove(event){
+    const move = cells.indexOf(event.target);
+    if(isLegal(move)){
+        clearError();
+        updateUI(move, PLAYER);
+    }
+    else{
+        showError('Move Error. Please press an empty square');
+        gameLoop();
+    }
+};
+
+function isWinner(player){
+    const winningPatterns = [
+        [0, 4, 8], 
+        [2, 4, 6], 
+        [0, 1, 2], 
+        [3, 4, 5], 
+        [6, 7, 8], 
+        [0, 3, 6], 
+        [1, 4, 7], 
+        [2, 5, 8]
+    ];
+
+    for(let pattern of winningPatterns){
+        if (pattern.every(index => squares[index] === player)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+function isTie(){
+    // Check if there's already a winner
+    if(!isWinner(PLAYER) && !isWinner(COMPUTER)){
+        return false;
+    }
+
+    // Check if all squares are filled
+    for(let cell of squares){
+        if(cell == null){
+            return false;
+        }
+    }
+};
+
+function isLegal(move){
+    return move < BOARD_SIZE && move >= 0 && !squares[move];
+};
+
+function startPlayerTurn(){
+    cells.forEach(cell => cell.addEventListener('click', clientMove));
+};
+
+function endPlayerTurn(){
+    playerTurn = false;
+    setTimeout(gameLoop, 1000);
+};
+
+function endComputerTurn(){
+    playerTurn = true;
+    cells.forEach(cell => cell.removeEventListener('click', clientMove));
+    setTimeout(gameLoop, 1000);
+};
+
 let playerTurn = true;
 function gameLoop(){
     if(isTie(squares)){
         clearBoard();
         clearError();
+        showMessage("It's a tie!");
         return;
     }
     if(playerTurn){
-        cells.forEach(cell => cell.addEventListener('click', clientMove));
+        startPlayerTurn();
+        endPlayerTurn();
     }
     else{
-        cells.forEach(cell => cell.removeEventListener('click', clientMove))
         computerMove();
-        if(isWinner(COMPUTER)){
-            checkWinLocally();
-        }
-        else{
-            playerTurn = true;
-            setTimeout(gameLoop, 1000);
-        }
+        endComputerTurn();
+    }
+    if(isWinner(PLAYER)){
+        clearBoard();
+        showMessage("Congrats! You Win!");
+    }
+    else if(isWinner(COMPUTER)){
+        clearBoard();
+        showMessage("👾You have been overcome by the AI Overlord's calculated onslaught👾");
     }
 };
 
